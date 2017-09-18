@@ -536,7 +536,7 @@ class optional_base : public optional_destroyer<T>
       if (storage_base::is_initialized())
       {
         if ( rhs.is_initialized() )
-             assign_value(rhs.get_impl());
+             storage_base::assign_value(rhs.get_impl());
         else base::destroy();
       }
       else
@@ -553,7 +553,7 @@ class optional_base : public optional_destroyer<T>
       if (storage_base::is_initialized())
       {
         if ( rhs.is_initialized() )
-             assign_value( boost::move(rhs.get_impl()) );
+             storage_base::assign_value( boost::move(rhs.get_impl()) );
         else base::destroy();
       }
       else
@@ -572,9 +572,9 @@ class optional_base : public optional_destroyer<T>
       {
         if ( rhs.is_initialized() )
 #ifndef BOOST_OPTIONAL_CONFIG_RESTORE_ASSIGNMENT_OF_NONCONVERTIBLE_TYPES
-          assign_value( rhs.get() );
+          storage_base::assign_value( rhs.get() );
 #else
-          assign_value( static_cast<value_type>(rhs.get()) );
+          storage_base::assign_value( static_cast<value_type>(rhs.get()) );
 #endif
           
         else base::destroy();
@@ -599,7 +599,7 @@ class optional_base : public optional_destroyer<T>
       if (storage_base::is_initialized())
       {
         if ( rhs.is_initialized() )
-             assign_value( static_cast<ref_type>(rhs.get()) );
+             storage_base::assign_value( static_cast<ref_type>(rhs.get()) );
         else base::destroy();
       }
       else
@@ -614,7 +614,7 @@ class optional_base : public optional_destroyer<T>
     void assign ( argument_type val )
     {
       if (storage_base::is_initialized())
-           assign_value(val);
+           storage_base::assign_value(val);
       else storage_base::construct(val);
     }
     
@@ -623,7 +623,7 @@ class optional_base : public optional_destroyer<T>
     void assign ( rval_reference_type val )
     {
       if (storage_base::is_initialized())
-           assign_value( boost::move(val) );
+           storage_base::assign_value( boost::move(val) );
       else storage_base::construct( boost::move(val) );
     }
 #endif
