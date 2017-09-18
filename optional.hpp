@@ -99,6 +99,7 @@ template<class T>
 class optional_storage : optional_tag
 {
     friend class optional_destroyer<T, false> ;
+    friend class optional_destroyer<T, true> ;
     friend class optional_base<T> ;
 
   private :
@@ -419,6 +420,8 @@ class optional_destroyer : public optional_mover<T>
 template<class T>
 class optional_destroyer<T, true> : public optional_mover<T>
 {
+    typedef optional_storage<T> storage_base ;
+
   protected :
     optional_destroyer() {}
 #if (!defined BOOST_NO_CXX11_DEFAULTED_FUNCTIONS) && (!defined BOOST_NO_CXX11_NON_PUBLIC_DEFAULTED_FUNCTIONS)
@@ -433,7 +436,7 @@ class optional_destroyer<T, true> : public optional_mover<T>
 #endif
 #endif
 
-    void destroy ( ) {}
+    void destroy ( ) { storage_base::m_initialized = false; }
 };
 
 template<class T>
